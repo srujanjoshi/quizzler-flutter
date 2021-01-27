@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/quizbrain.dart';
 
 void main() => runApp(Quizzler());
+
+QuizBrain quizBrain = new QuizBrain();
 
 class Quizzler extends StatelessWidget {
   @override
@@ -24,17 +27,8 @@ class QuizPage extends StatefulWidget {
   _QuizPageState createState() => _QuizPageState();
 }
 
-List<Icon> scoreKeeper = <Icon>[];
-
-List<String> questions = [
-  'You can lead a cow down stairs but not up stairs.',
-  'Approximately one quarter of human bones are in the feet.',
-  'A slug\'s blood is green.'
-];
-
-int questionNumber = 0;
-
 class _QuizPageState extends State<QuizPage> {
+  List<Icon> scoreKeeper = <Icon>[];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -47,7 +41,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                questions[questionNumber],
+                quizBrain.getQuestionText(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -72,10 +66,16 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked true.
                 setState(() {
+                  bool correctAnswer = quizBrain.getCorrectAnswer();
+                  if (correctAnswer == true) {
+                    print("User got it right :)");
+                  } else {
+                    print("User got it wrong :(");
+                  }
                   scoreKeeper.add(
                     Icon(Icons.check_rounded, color: Colors.green),
                   );
-                  questionNumber = (questionNumber + 1) % (questions.length);
+                  quizBrain.nextQuestion();
                 });
               },
             ),
@@ -96,10 +96,16 @@ class _QuizPageState extends State<QuizPage> {
               onPressed: () {
                 //The user picked false.
                 setState(() {
+                  bool correctAnswer = quizBrain.getCorrectAnswer();
+                  if (correctAnswer == false) {
+                    print("User got it right :)");
+                  } else {
+                    print("User got it wrong :(");
+                  }
                   scoreKeeper.add(
                     Icon(Icons.close_rounded, color: Colors.red),
                   );
-                  questionNumber = (questionNumber + 1) % (questions.length);
+                  quizBrain.nextQuestion();
                 });
               },
             ),

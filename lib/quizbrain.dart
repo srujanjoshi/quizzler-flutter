@@ -28,6 +28,7 @@ class QuizBrain {
     Question(
         'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
         true),
+    Question('Saudi Arabia imports sand and camels from Australia', true),
   ];
 
   void nextQuestion() {
